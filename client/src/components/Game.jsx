@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import {
   CircularProgress,
@@ -11,8 +12,8 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Button,
 } from "@material-ui/core";
-//import Category from "./Category";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -24,9 +25,9 @@ const useStyles = makeStyles(theme => ({
 const Game = () => {
   const classes = useStyles();
   const [categories, setCategories] = useState(null);
-  const [category, setCategory] = useState("");
-  const [difficulty, setDifficulty] = useState("");
-  const [questionnaire, setQuestionnaire] = useState("");
+  const [category, setCategory] = useState("random");
+  const [difficulty, setDifficulty] = useState("random");
+  const [questionnaire, setQuestionnaire] = useState("random");
 
   useEffect(() => {
     getCategories();
@@ -81,6 +82,7 @@ const Game = () => {
           value={questionnaire}
           onChange={handleQuestionnaire}
         >
+          <FormControlLabel value="random" control={<Radio />} label="Random" />
           <FormControlLabel
             value="multiple"
             control={<Radio />}
@@ -93,6 +95,9 @@ const Game = () => {
           />
         </RadioGroup>
       </FormControl>
+      <Link to={`/game/start/${category}&${difficulty}&${questionnaire}`}>
+        <Button>Start</Button>
+      </Link>
     </>
   );
 };
