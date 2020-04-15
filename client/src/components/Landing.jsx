@@ -7,7 +7,7 @@ const Landing = () => {
     <>
       <Typography variant="h4">Welcome to Trivial Trivia</Typography>
       <Typography variant="body1">Login to start</Typography>
-      <Link to="/game">
+      <Link to="/menu">
         <Button>Login with Google</Button>
       </Link>
     </>

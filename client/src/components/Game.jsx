@@ -1,104 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import {
-  CircularProgress,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  makeStyles,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Button,
-} from "@material-ui/core";
-
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    minWidth: 120,
-    margin: theme.spacing(1),
-  },
-}));
+import { CircularProgress } from "@material-ui/core";
+import Question from "./Question";
 
 const Game = () => {
-  const classes = useStyles();
-  const [categories, setCategories] = useState(null);
-  const [category, setCategory] = useState("random");
-  const [difficulty, setDifficulty] = useState("random");
-  const [questionnaire, setQuestionnaire] = useState("random");
+  const [questions, setQuestions] = useState(null);
 
   useEffect(() => {
-    getCategories();
+    getQuestions();
   }, []);
 
-  const getCategories = async () => {
-    const response = await axios.get("https://opentdb.com/api_category.php");
-    setCategories(response.data.trivia_categories);
+  const { category, difficulty, questionnaire } = useParams();
+
+  const createURL = () => {
+    const baseURL = "https://opentdb.com/api.php?amount=10";
+    const categoryURL = `&category=${category}`;
+    const difficultyURL = `&difficulty=${difficulty}`;
+    const questionnaireURL = `&type=${questionnaire}`;
+    const random = "random";
+
+    if (
+      category === random &&
+      difficulty === random &&
+      questionnaire === random
+    )
+      return baseURL;
+    if (category === random && difficulty === random)
+      return baseURL + questionnaireURL;
+    if (category === random && questionnaire === random)
+      return baseURL + difficultyURL;
+    if (difficulty === random && questionnaire === random)
+      return baseURL + categoryURL;
+    if (category === random) return baseURL + difficultyURL + questionnaireURL;
+    if (difficulty === random) return baseURL + categoryURL + questionnaireURL;
+    if (questionnaire === random) return baseURL + categoryURL + difficultyURL;
+    return baseURL + categoryURL + difficultyURL + questionnaireURL;
   };
 
-  const handleCategory = e => setCategory(e.target.value);
-  const handleDifficulty = e => setDifficulty(e.target.value);
-  const handleQuestionnaire = e => setQuestionnaire(e.target.value);
+  const URL = createURL();
 
-  return !categories ? (
+  const getQuestions = async () => {
+    const response = await axios.get(URL);
+    setQuestions(response.data.results);
+  };
+
+  return !questions ? (
     <CircularProgress />
   ) : (
-    <>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="selectCategory">Category</InputLabel>
-        <Select
-          labelId="selectCategory"
-          value={category}
-          onChange={handleCategory}
-        >
-          <MenuItem value="random">Random</MenuItem>
-          {categories.map(category => (
-            <MenuItem key={category.id} value={category.id}>
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="selectDifficulty">Difficulty</InputLabel>
-        <Select
-          labelId="selectDifficulty"
-          value={difficulty}
-          onChange={handleDifficulty}
-        >
-          <MenuItem value="random">Random</MenuItem>
-          <MenuItem value="easy">Easy</MenuItem>
-          <MenuItem value="medium">Medium</MenuItem>
-          <MenuItem value="hard">Hard</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Questionnaire Type</FormLabel>
-        <RadioGroup
-          aria-label="questionnaire type"
-          name="questionnaire"
-          value={questionnaire}
-          onChange={handleQuestionnaire}
-        >
-          <FormControlLabel value="random" control={<Radio />} label="Random" />
-          <FormControlLabel
-            value="multiple"
-            control={<Radio />}
-            label="Multiple Choice"
-          />
-          <FormControlLabel
-            value="boolean"
-            control={<Radio />}
-            label="True or False"
-          />
-        </RadioGroup>
-      </FormControl>
-      <Link to={`/game/start/${category}&${difficulty}&${questionnaire}`}>
-        <Button>Start</Button>
-      </Link>
-    </>
+    questions.map(question => (
+      <Question
+        key={questions.indexOf(question)}
+        question={question.question}
+        index={questions.indexOf(question)}
+        correct_answer={question.correct_answer}
+        incorrect_answers={question.incorrect_answers}
+        type={question.type}
+      />
+    ))
   );
 };
 
