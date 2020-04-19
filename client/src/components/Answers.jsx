@@ -1,12 +1,16 @@
 import React from "react";
 import Answer from "./Answer";
+import { CircularProgress } from "@material-ui/core";
 
-const Answers = ({ correct_answer, incorrect_answers, type }) => {
+const Answers = ({
+  correct_answer,
+  incorrect_answers,
+  type,
+  handleAnswerClick,
+}) => {
   const answers = [];
   incorrect_answers.map(incorrect_answer => answers.push(incorrect_answer));
   answers.push(correct_answer);
-
-  const boolAnswers = ["True", "False"];
 
   const shuffleAnswers = arr => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -14,29 +18,29 @@ const Answers = ({ correct_answer, incorrect_answers, type }) => {
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
   };
+
   shuffleAnswers(answers);
-  const checkAnswer = answer => {
-    console.log(answer, correct_answer);
-    if (answer === correct_answer) {
-      console.log("correct");
-    } else {
-      console.log("incorrect");
-    }
-  };
+
+  const boolAnswers = ["True", "False"];
 
   const renderAnswers = answersArray => {
     return answersArray.map(answer => (
       <Answer
         key={answersArray.indexOf(answer)}
         answer={answer}
-        checkAnswer={checkAnswer}
+        correct_answer={correct_answer}
+        handleAnswerClick={handleAnswerClick}
       />
     ));
   };
 
-  return type === "boolean"
-    ? renderAnswers(boolAnswers)
-    : renderAnswers(answers);
+  return !answers ? (
+    <CircularProgress />
+  ) : type === "boolean" ? (
+    renderAnswers(boolAnswers)
+  ) : (
+    renderAnswers(answers)
+  );
 };
 
 export default Answers;

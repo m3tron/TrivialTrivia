@@ -3,39 +3,38 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import Question from "./Question";
+import ScoreBar from "./ScoreBar";
+import GameOver from "./GameOver";
 
 const Game = () => {
   const [questions, setQuestions] = useState(null);
+  const [usersAnswers, setUsersAnswers] = useState([]);
+  const [score, setScore] = useState(0);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     getQuestions();
+    // eslint-disable-next-line
   }, []);
 
-  const { category, difficulty, questionnaire } = useParams();
+  const { category, difficulty, type } = useParams();
 
   const createURL = () => {
     const baseURL = "https://opentdb.com/api.php?amount=10";
     const categoryURL = `&category=${category}`;
     const difficultyURL = `&difficulty=${difficulty}`;
-    const questionnaireURL = `&type=${questionnaire}`;
+    const typeURL = `&type=${type}`;
     const random = "random";
 
-    if (
-      category === random &&
-      difficulty === random &&
-      questionnaire === random
-    )
+    if (category === random && difficulty === random && type === random)
       return baseURL;
-    if (category === random && difficulty === random)
-      return baseURL + questionnaireURL;
-    if (category === random && questionnaire === random)
-      return baseURL + difficultyURL;
-    if (difficulty === random && questionnaire === random)
-      return baseURL + categoryURL;
-    if (category === random) return baseURL + difficultyURL + questionnaireURL;
-    if (difficulty === random) return baseURL + categoryURL + questionnaireURL;
-    if (questionnaire === random) return baseURL + categoryURL + difficultyURL;
-    return baseURL + categoryURL + difficultyURL + questionnaireURL;
+    if (category === random && difficulty === random) return baseURL + typeURL;
+    if (category === random && type === random) return baseURL + difficultyURL;
+    if (difficulty === random && type === random) return baseURL + categoryURL;
+    if (category === random) return baseURL + difficultyURL + typeURL;
+    if (difficulty === random) return baseURL + categoryURL + typeURL;
+    if (type === random) return baseURL + categoryURL + difficultyURL;
+    return baseURL + categoryURL + difficultyURL + typeURL;
   };
 
   const URL = createURL();
@@ -45,19 +44,37 @@ const Game = () => {
     setQuestions(response.data.results);
   };
 
+  const handleAnswerClick = (answer, correct_answer) => {
+    if (answer === correct_answer) setScore(score + 1);
+    setUsersAnswers([
+      ...usersAnswers,
+      { usersAnswer: answer, correctAnswer: correct_answer },
+    ]);
+    setIndex(index + 1);
+  };
+
+  const renderQuestion = (questions, index) => (
+    <Question
+      question={questions[index].question}
+      index={index}
+      correct_answer={questions[index].correct_answer}
+      incorrect_answers={questions[index].incorrect_answers}
+      type={questions[index].type}
+      handleAnswerClick={handleAnswerClick}
+    />
+  );
+
   return !questions ? (
     <CircularProgress />
   ) : (
-    questions.map(question => (
-      <Question
-        key={questions.indexOf(question)}
-        question={question.question}
-        index={questions.indexOf(question)}
-        correct_answer={question.correct_answer}
-        incorrect_answers={question.incorrect_answers}
-        type={question.type}
-      />
-    ))
+    <>
+      <ScoreBar score={score} />
+      {index === questions.length ? (
+        <GameOver usersAnswers={usersAnswers} />
+      ) : (
+        renderQuestion(questions, index)
+      )}
+    </>
   );
 };
 

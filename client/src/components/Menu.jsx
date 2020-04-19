@@ -27,7 +27,7 @@ const Menu = () => {
   const [categories, setCategories] = useState(null);
   const [category, setCategory] = useState("random");
   const [difficulty, setDifficulty] = useState("random");
-  const [questionnaire, setQuestionnaire] = useState("random");
+  const [type, settype] = useState("random");
 
   useEffect(() => {
     getCategories();
@@ -40,7 +40,7 @@ const Menu = () => {
 
   const handleCategory = e => setCategory(e.target.value);
   const handleDifficulty = e => setDifficulty(e.target.value);
-  const handleQuestionnaire = e => setQuestionnaire(e.target.value);
+  const handletype = e => settype(e.target.value);
 
   return !categories ? (
     <CircularProgress />
@@ -75,12 +75,12 @@ const Menu = () => {
         </Select>
       </FormControl>
       <FormControl component="fieldset">
-        <FormLabel component="legend">Questionnaire Type</FormLabel>
+        <FormLabel component="legend">Type</FormLabel>
         <RadioGroup
-          aria-label="questionnaire type"
-          name="questionnaire"
-          value={questionnaire}
-          onChange={handleQuestionnaire}
+          aria-label="type"
+          name="type"
+          value={type}
+          onChange={handletype}
         >
           <FormControlLabel value="random" control={<Radio />} label="Random" />
           <FormControlLabel
@@ -95,7 +95,7 @@ const Menu = () => {
           />
         </RadioGroup>
       </FormControl>
-      <Link to={`/game&${category}&${difficulty}&${questionnaire}`}>
+      <Link to={`/game&${category}&${difficulty}&${type}`}>
         <Button>Start</Button>
       </Link>
     </>
