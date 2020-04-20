@@ -1,12 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import he from "he";
+import { Button, Typography } from "@material-ui/core";
 
 const GameOver = ({ usersAnswers }) => {
-  return usersAnswers.map(usersAnswer => (
+  return (
     <>
-      <h1>You selected: {usersAnswer.usersAnswer}</h1>
-      <h1>Correct answer: {usersAnswer.correctAnswer}</h1>
+      <Link to="/menu">
+        <Button variant="contained" color="primary">
+          New Game
+        </Button>
+      </Link>
+      {usersAnswers.map(usersAnswer => (
+        <Typography variant="h4" key={usersAnswers.indexOf(usersAnswer)}>
+          <>You selected: {he.decode(usersAnswer.usersAnswer)}</>
+          <>Correct answer: {he.decode(usersAnswer.correctAnswer)}</>
+        </Typography>
+      ))}
     </>
-  ));
+  );
 };
 
 export default GameOver;

@@ -16,9 +16,37 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: "grid",
+    justifyContent: "center",
+  },
   formControl: {
     minWidth: 120,
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
+  },
+  select: {
+    color: "#d6b054",
+    "&:before": {
+      borderBottomColor: "#d9ceb6",
+    },
+    "&:after": {
+      borderBottomColor: "#d6b054",
+    },
+    "&:hover": {
+      borderBottomColor: "red",
+    },
+  },
+  label: {
+    color: "#d9ceb6",
+    "&.Mui-focused": {
+      color: "#d6b054",
+    },
+  },
+  button: {
+    backgroundColor: "#d6b054",
+    "&:hover": {
+      backgroundColor: "#d9ceb6",
+    },
   },
 }));
 
@@ -45,13 +73,17 @@ const Menu = () => {
   return !categories ? (
     <CircularProgress />
   ) : (
-    <>
+    <div className={classes.root}>
       <FormControl className={classes.formControl}>
-        <InputLabel id="selectCategory">Category</InputLabel>
+        <InputLabel id="selectCategory" className={classes.label}>
+          Category
+        </InputLabel>
         <Select
           labelId="selectCategory"
           value={category}
           onChange={handleCategory}
+          className={classes.select}
+          autoWidth="true"
         >
           <MenuItem value="random">Random</MenuItem>
           {categories.map(category => (
@@ -62,11 +94,15 @@ const Menu = () => {
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel id="selectDifficulty">Difficulty</InputLabel>
+        <InputLabel id="selectDifficulty" className={classes.label}>
+          Difficulty
+        </InputLabel>
         <Select
           labelId="selectDifficulty"
           value={difficulty}
           onChange={handleDifficulty}
+          className={classes.select}
+          autoWidth="true"
         >
           <MenuItem value="random">Random</MenuItem>
           <MenuItem value="easy">Easy</MenuItem>
@@ -75,7 +111,9 @@ const Menu = () => {
         </Select>
       </FormControl>
       <FormControl component="fieldset">
-        <FormLabel component="legend">Type</FormLabel>
+        <FormLabel component="legend" className={classes.label}>
+          Type
+        </FormLabel>
         <RadioGroup
           aria-label="type"
           name="type"
@@ -96,9 +134,9 @@ const Menu = () => {
         </RadioGroup>
       </FormControl>
       <Link to={`/game&${category}&${difficulty}&${type}`}>
-        <Button>Start</Button>
+        <Button className={classes.button}>Start</Button>
       </Link>
-    </>
+    </div>
   );
 };
 
