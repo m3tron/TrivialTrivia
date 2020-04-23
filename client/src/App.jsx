@@ -5,6 +5,8 @@ import { Container } from "@material-ui/core";
 import Landing from "./components/Landing";
 import Game from "./components/Game";
 import Menu from "./components/Menu";
+import MarathonMenu from "./components/marathon/MarathonMenu";
+import MarathonGame from "./components/marathon/MarathonGame";
 
 const App = () => {
   return (
@@ -16,6 +18,12 @@ const App = () => {
           exact
           path="/game&:category&:difficulty&:type"
           component={Game}
+        />
+        <Route exact path="/marathon-menu" component={MarathonMenu} />
+        <Route
+          exact
+          path="/marathon-game&:difficulty"
+          component={MarathonGame}
         />
       </Container>
     </BrowserRouter>

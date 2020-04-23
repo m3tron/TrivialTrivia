@@ -70,7 +70,7 @@ const Game = () => {
     <>
       <ScoreBar score={score} />
       {index === questions.length ? (
-        <GameOver usersAnswers={usersAnswers} />
+        <GameOver usersAnswers={usersAnswers} questions={questions} />
       ) : (
         renderQuestion(questions, index)
       )}

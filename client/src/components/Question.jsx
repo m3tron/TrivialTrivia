@@ -5,8 +5,20 @@ import Answers from "./Answers";
 
 const useStyles = makeStyles({
   root: {
-    display: "grid",
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
+    height: "90vh",
+    verticalAlign: "center",
+    alignItems: "center",
+  },
+  question: {
+    textAlign: "center",
+    maxWidth: 600,
+    marginBottom: "2rem",
+  },
+  answers: {
+    maxWidth: 500,
   },
 });
 
@@ -21,13 +33,17 @@ const Question = ({
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6">{he.decode(question)}</Typography>
-      <Answers
-        correct_answer={correct_answer}
-        incorrect_answers={incorrect_answers}
-        type={type}
-        handleAnswerClick={handleAnswerClick}
-      />
+      <div className={classes.question}>
+        <Typography variant="h6">{he.decode(question)}</Typography>
+      </div>
+      <div className={classes.answers}>
+        <Answers
+          correct_answer={correct_answer}
+          incorrect_answers={incorrect_answers}
+          type={type}
+          handleAnswerClick={handleAnswerClick}
+        />
+      </div>
     </div>
   );
 };

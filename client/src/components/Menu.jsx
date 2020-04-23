@@ -17,8 +17,11 @@ import {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "grid",
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
+    height: "90vh",
   },
   formControl: {
     minWidth: 120,
@@ -33,7 +36,7 @@ const useStyles = makeStyles(theme => ({
       borderBottomColor: "#d6b054",
     },
     "&:hover": {
-      borderBottomColor: "red",
+      borderBottomColor: "#d6b054",
     },
   },
   label: {
