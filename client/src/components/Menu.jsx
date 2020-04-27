@@ -86,7 +86,7 @@ const Menu = () => {
           value={category}
           onChange={handleCategory}
           className={classes.select}
-          autoWidth="true"
+          autoWidth={true}
         >
           <MenuItem value="random">Random</MenuItem>
           {categories.map(category => (
@@ -105,7 +105,7 @@ const Menu = () => {
           value={difficulty}
           onChange={handleDifficulty}
           className={classes.select}
-          autoWidth="true"
+          autoWidth={true}
         >
           <MenuItem value="random">Random</MenuItem>
           <MenuItem value="easy">Easy</MenuItem>

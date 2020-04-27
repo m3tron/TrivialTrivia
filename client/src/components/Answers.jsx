@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Answer from "./Answer";
 import { CircularProgress } from "@material-ui/core";
 
@@ -8,20 +8,28 @@ const Answers = ({
   type,
   handleAnswerClick,
 }) => {
-  const answers = [];
-  incorrect_answers.map(incorrect_answer => answers.push(incorrect_answer));
-  answers.push(correct_answer);
+  const [multipleAnswers, setMultipleAnswers] = useState(null);
+  const boolAnswers = ["True", "False"];
 
-  const shuffleAnswers = arr => {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
+  const shuffleAnswers = () => {
+    const answers = [...incorrect_answers, correct_answer];
+
+    const shuffle = arr => {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    };
+
+    shuffle(answers);
+
+    return answers;
   };
 
-  shuffleAnswers(answers);
-
-  const boolAnswers = ["True", "False"];
+  useEffect(() => {
+    if (type === "multiple") setMultipleAnswers(shuffleAnswers());
+    // eslint-disable-next-line
+  }, [correct_answer]);
 
   const renderAnswers = answersArray => {
     return answersArray.map(answer => (
@@ -34,12 +42,12 @@ const Answers = ({
     ));
   };
 
-  return !answers ? (
-    <CircularProgress />
-  ) : type === "boolean" ? (
+  return type === "boolean" ? (
     renderAnswers(boolAnswers)
+  ) : !multipleAnswers ? (
+    <CircularProgress />
   ) : (
-    renderAnswers(answers)
+    renderAnswers(multipleAnswers)
   );
 };
 

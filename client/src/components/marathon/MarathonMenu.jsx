@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import ScoreBar from "../ScoreBar";
 
@@ -30,9 +31,15 @@ const MarathonMenu = () => {
       <ScoreBar />
       <div className={classes.root}>
         <Typography variant="h5">Select Difficulty</Typography>
-        <Button className={classes.difficulty}>Easy</Button>
-        <Button className={classes.difficulty}>Medium</Button>
-        <Button className={classes.difficulty}>Hard</Button>
+        <Link to="/marathon-game/easy">
+          <Button className={classes.difficulty}>Easy</Button>
+        </Link>
+        <Link to="/marathon-game/medium">
+          <Button className={classes.difficulty}>Medium</Button>
+        </Link>
+        <Link to="/marathon-game/hard">
+          <Button className={classes.difficulty}>Hard</Button>
+        </Link>
       </div>
     </>
   );

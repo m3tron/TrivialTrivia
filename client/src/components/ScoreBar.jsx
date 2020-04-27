@@ -13,7 +13,7 @@ const ScoreBar = ({ score }) => {
   const classes = useStyles();
 
   const renderScore = () => {
-    if (score) {
+    if (score >= 0) {
       return <Typography variant="h5">Score: {score}</Typography>;
     }
   };

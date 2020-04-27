@@ -26,7 +26,9 @@
   "homepage": "https://github.com/m3tron/TrivialTrivia#readme",
   "dependencies": {
     "concurrently": "^5.1.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.7"
+    "mongoose": "^5.9.7",
+    "passport-google-oauth20": "^2.0.0"
   }
 }
