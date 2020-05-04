@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import Question from "./Question";
-import ScoreBar from "./ScoreBar";
 import GameOver from "./GameOver";
+import Score from "./Score";
 
 const Game = () => {
   const [questions, setQuestions] = useState(null);
@@ -68,7 +68,7 @@ const Game = () => {
     <CircularProgress />
   ) : (
     <>
-      <ScoreBar score={score} />
+      <Score score={score} />
       {index === questions.length ? (
         <GameOver usersAnswers={usersAnswers} questions={questions} />
       ) : (

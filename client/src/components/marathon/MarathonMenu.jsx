@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, makeStyles, Typography } from "@material-ui/core";
-import ScoreBar from "../ScoreBar";
 
 const useStyles = makeStyles({
   root: {
@@ -28,7 +27,6 @@ const MarathonMenu = () => {
 
   return (
     <>
-      <ScoreBar />
       <div className={classes.root}>
         <Typography variant="h5">Select Difficulty</Typography>
         <Link to="/marathon-game/easy">

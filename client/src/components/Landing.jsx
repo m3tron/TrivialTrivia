@@ -33,34 +33,38 @@ const useStyles = makeStyles({
   },
 });
 
-const Landing = () => {
+const Landing = ({ user }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.title}>
-        <Typography variant="h4">Welcome to Trivial Trivia</Typography>
-      </div>
-      <div className={classes.gameTypes}>
-        <div className={classes.gameType}>
-          <Link to="/menu">
-            <Button className={classes.button}>Classic</Button>
-          </Link>
-          <Typography variant="body2">
-            You answer 10 questions and receive a result at the end.
-          </Typography>
+    <>
+      <div className={classes.root}>
+        <div className={classes.title}>
+          <Typography variant="h4">Welcome to Trivial Trivia</Typography>
         </div>
-        <div className={classes.gameType}>
-          <Link to="/marathon-menu">
-            <Button className={classes.button}>Marathon</Button>
-          </Link>
-          <Typography variant="body2">
-            You answer 1 question at a time and the game ends when you pick an
-            incorrect answer.
-          </Typography>
+        <div className={classes.gameTypes}>
+          <div className={classes.gameType}>
+            <Link to="/menu">
+              <Button className={classes.button}>Classic</Button>
+            </Link>
+            <Typography variant="body2">
+              You answer 10 questions and receive a result at the end.
+            </Typography>
+          </div>
+          <div className={classes.gameType}>
+            <Link to="/marathon-menu">
+              <Button variant="contained" className={classes.button}>
+                Marathon
+              </Button>
+            </Link>
+            <Typography variant="body2">
+              You answer 1 question at a time and the game ends when you pick an
+              incorrect answer.
+            </Typography>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

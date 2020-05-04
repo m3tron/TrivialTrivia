@@ -2,3 +2,8 @@ html {
   background-color: #1f1d29;
   color: #d9ceb6;
 }
+
+a {
+  text-decoration: none;
+  color: #d9ceb6;
+}

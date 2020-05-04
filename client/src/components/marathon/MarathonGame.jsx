@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, CircularProgress, makeStyles } from "@material-ui/core";
-import ScoreBar from "../ScoreBar";
 import Question from "../Question";
 import MarathonLeaderBoard from "./MarathonLeaderBoard";
+import Score from "../Score";
 
 const useStyles = makeStyles({
   root: {
@@ -49,7 +49,7 @@ const MarathonGame = () => {
 
   const getQuestions = async () => {
     const response = await axios.get(
-      `https://opentdb.com/api.php?amount=50&difficulty=${difficulty}&token=${token}`
+      `https://opentdb.com/api.php?amount=1&difficulty=${difficulty}&token=${token}`
     );
     setQuestions(response.data.results);
     setIndex(0);
@@ -91,8 +91,8 @@ const MarathonGame = () => {
 
   return (
     <>
-      <ScoreBar score={score} />
       <div className={classes.root}>
+        <Score score={score} />
         {!token ? (
           <CircularProgress color="secondary" />
         ) : (

@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Menu = () => {
+const Menu = ({ user }) => {
   const classes = useStyles();
   const [categories, setCategories] = useState(null);
   const [category, setCategory] = useState("random");
